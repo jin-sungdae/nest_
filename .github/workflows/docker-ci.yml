@@ -48,6 +48,14 @@ jobs:
           source: "docker-compose.yml"
           target: "/home/ubuntu/"
 
+      - name: Upload .env to EC2
+        uses: appleboy/scp-action@v0.1.6
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+          source: ".env"
+          target: "/home/ubuntu/"
       
       - name: Deploy on EC2 via SSH
         uses: appleboy/ssh-action@v1.0.0
