@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards, Request } from '@nestjs/common';
+import { Controller, Post, Get, Body, UseGuards, Request } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UsersService } from '../users/users.service';
 import { JwtAuthGuard } from './jwt-auth.guard';
@@ -27,5 +27,12 @@ export class AuthController {
   @Post('logout')
   logout(@Request() req) {
     return { message: 'Logged out' };
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('me')
+  async getProfile(@Request() req) {
+    // req.user는 JwtStrategy에서 설정한 사용자 정보
+    return req.user;
   }
 }

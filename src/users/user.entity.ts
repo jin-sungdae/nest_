@@ -1,5 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity,
+     PrimaryGeneratedColumn,
+    Column,
+     CreateDateColumn,
+      UpdateDateColumn,
+      OneToMany } from 'typeorm';
 
+import { Comment } from '../comments/comment.entity';
 export enum UserRole {
   USER = 'USER',
   ADMIN = 'ADMIN',
@@ -21,6 +27,9 @@ export class User {
 
   @Column({ nullable: true })
   email: string;
+
+  @OneToMany(() => Comment, (comment) => comment.author)
+  comments: Comment[];
 
   @Column({ type: 'enum', enum: UserRole, default: UserRole.USER })
   role: UserRole;
